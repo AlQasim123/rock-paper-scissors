@@ -92,10 +92,8 @@ function playGame() {
     }
 
     // print the scores for user, computer and the result of the five rounds
-    let resut = (humanScore > computerScore) ? "Win": (humanScore === computerScore) ? "Draw": "Lose";
-    console.log(`Your Score = ${humanScore}
-Computer Score = ${computerScore}
-You ${resut}`);
+    let resut = (humanScore > computerScore) ? "You Win": (humanScore === computerScore) ? "Draw": "You Lose";
+    console.log(`Your Score = ${humanScore}\nComputer Score = ${computerScore}\n${resut}`);
 }
 
 playGame()
