@@ -12,35 +12,79 @@ function getHumanChoice() {
     return prompt("Rock, Paper, Scissors?");
 }
 
-let humanScore = computerScore = 0;
-
 function playRound(humanChoice, computerChoice) {
     // convert the humanChoice to lower case
     humanChoice = humanChoice.toLowerCase();
     // convert human an computer choices to a title (start wit a cap letter)
     let humanWord = humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1); 
     let computerWord = computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1); 
-    // a var to hold the result of the round
-    let msg;
+    // a var to hold the result of the round and the winner
+    let msg, winner;
     // game logic draw or computer win else human win
     if (humanChoice === computerChoice) {
         msg = `Draw`;
-
-    } else if (humanChoice === "rock" && computerChoice == "paper" ||
-        humanChoice === "paper" && computerChoice == "scissors" ||
-        humanChoice === "scissors" && computerChoice == "rock"
-    ) {
+    } 
+    else if ((humanChoice === "rock" && computerChoice == "paper") ||
+       (humanChoice === "paper" && computerChoice == "scissors") ||
+       (humanChoice === "scissors" && computerChoice == "rock")) {
         msg = `You lose! ${computerWord} beats ${humanWord}`;
-        computerScore++;
-   
-    } else {
+        winner = "computer"
+    } 
+    else {
         msg = `You Win! ${humanWord} beats ${computerWord}`;
-        humanScore++;
+        winner = "human"
     }
     console.log(msg);
+    return winner
 }
 
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
+function playGame() {
+    let humanScore = computerScore = 0;
 
-playRound(humanSelection, computerSelection);
+    // first round
+    let humanSelection = getHumanChoice();
+    let computerSelection = getComputerChoice();
+    let winner = playRound(humanSelection, computerSelection);
+    if (winner) {
+        winner === "human" ? humanScore++: computerScore++;
+    }
+    
+    // second round
+    humanSelection = getHumanChoice();
+    computerSelection = getComputerChoice();
+    winner = playRound(humanSelection, computerSelection);
+    if (winner) {
+        winner === "human" ? humanScore++: computerScore++;
+    }
+    
+    // third round
+    humanSelection = getHumanChoice();
+    computerSelection = getComputerChoice();
+    winner = playRound(humanSelection, computerSelection);
+    if (winner) {
+        winner === "human" ? humanScore++: computerScore++;
+    }
+    
+    // fourth round
+    humanSelection = getHumanChoice();
+    computerSelection = getComputerChoice();
+    winner = playRound(humanSelection, computerSelection);
+    if (winner) {
+        winner === "human" ? humanScore++: computerScore++;
+    }
+    
+    // fifth round
+    humanSelection = getHumanChoice();
+    computerSelection = getComputerChoice();
+    winner = playRound(humanSelection, computerSelection);
+    if (winner) {
+        winner === "human" ? humanScore++: computerScore++;
+    }
+    
+    let resut = (humanScore > computerScore) ? "Win": (humanScore === computerScore) ? "Draw": "Lose";
+    console.log(`Your Score = ${humanScore}
+Computer Score = ${computerScore}
+You ${resut}`);
+}
+
+playGame()
