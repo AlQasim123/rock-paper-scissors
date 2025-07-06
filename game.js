@@ -86,6 +86,28 @@ function playGame() {
             }
         });
     });    
+
+    // styling the UI 
+    document.body.style = "margin: 0;"
+    container.style =  
+    "padding: 0 15px; background-color: #eee; height: 100vh; display: flex; flex-direction: column; justify-content: center; text-align: center;";
+
+    
+    btns.style = "display: flex; flex-wrap: wrap; justify-content: space-evenly; gap: 20px;"
+
+    buttons.forEach((btn) => {
+        btn.style = 
+        "font-size: 20px; color: white; background-color: #2196F3; border: none; border-radius: 8px; padding: 20px 15px; flex: 1 250px;"
+        btn.addEventListener("mouseenter", function() {
+            btn.style.background = "#007edf"
+        });
+        btn.addEventListener("mouseleave", function() {
+            btn.style.background = "#2196F3"
+        });
+    });
+    
+    scores.style = "font-size: 14px;";
+    result.style = "font-size: 18px;";
 }
 
 playGame()
