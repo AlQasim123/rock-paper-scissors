@@ -1,99 +1,91 @@
 // get random choise for computer
-function getComputerChoice() {
+function getComputerChoice(choises) {
     let num = Math.floor(Math.random() * 3);
-    if (num === 0) {
-        return "rock";
-    } else if (num === 1) {
-        return "paper";
-    }
-    return "scissors";
+    return choises[num]
 }
 
-// get input from user and lower the case
-function getHumanChoice() {
-    return prompt("Rock, Paper, Scissors?").toLowerCase();
-}
+function playRound(userChoice) {
 
-// cap the first letter for printing 
-function capFirstLetter(word) {
-    return word.charAt(0).toUpperCase() + word.slice(1); 
-}
-
-function playRound(humanChoice, computerChoice) {
-    // convert human an computer choices to a title (start wit a cap letter)
-    let humanWord = capFirstLetter(humanChoice)
-    let computerWord = capFirstLetter(computerChoice)
+    const choises = ["Rock", "Paper", "Scissors"]
+    const computerChoice = getComputerChoice(choises);
     
-    // a var to hold the result of the round and the winner
-    let msg, winner;
+    // a var to hold the winner
+    let winner, msg;
     
-    // game logic draw or computer win else human win
-    if (humanChoice === computerChoice) {
-        msg = `Draw`;
+    // game logic tie or computer win else user win
+    if (userChoice === computerChoice) {
+        msg = "It's a Tie"
     } 
-    else if ((humanChoice === "rock" && computerChoice == "paper") ||
-       (humanChoice === "paper" && computerChoice == "scissors") ||
-       (humanChoice === "scissors" && computerChoice == "rock")) {
-        msg = `You lose! ${computerWord} beats ${humanWord}`;
-        winner = "computer"
+    else if ((userChoice === "Rock" && computerChoice == "Paper") ||
+       (userChoice === "Paper" && computerChoice == "Scissors") ||
+       (userChoice === "Scissors" && computerChoice == "Rock")) {
+        msg = `You Lose!, ${computerChoice} beats ${userChoice}`;
+        winner = "computer";
     } 
     else {
-        msg = `You Win! ${humanWord} beats ${computerWord}`;
-        winner = "human"
+        msg = `You Win!, ${userChoice} beats ${computerChoice}`;
+        winner = "user";
     }
 
-    // print the result and return the winner of the round
-    console.log(msg);
-    return winner
+    return [winner, msg]
 }
 
 function playGame() {
-    // scores
-    let humanScore = computerScore = 0;
+    let userScore = computerScore = 0;
 
-    // first round
-    let humanSelection = getHumanChoice();
-    let computerSelection = getComputerChoice();
-    let winner = playRound(humanSelection, computerSelection);
-    if (winner) {
-        winner === "human" ? humanScore++: computerScore++;
-    }
+    // create the choises for the user and the container
+    const rock = document.createElement("button");
+    const paper = document.createElement("button");
+    const scissors = document.createElement("button");
+    const btns = document.createElement("div");
+    const container = document.createElement("div")
     
-    // second round
-    humanSelection = getHumanChoice();
-    computerSelection = getComputerChoice();
-    winner = playRound(humanSelection, computerSelection);
-    if (winner) {
-        winner === "human" ? humanScore++: computerScore++;
-    }
+    rock.textContent = "Rock";
+    paper.textContent = "Paper";
+    scissors.textContent = "Scissors";
     
-    // third round
-    humanSelection = getHumanChoice();
-    computerSelection = getComputerChoice();
-    winner = playRound(humanSelection, computerSelection);
-    if (winner) {
-        winner === "human" ? humanScore++: computerScore++;
-    }
-    
-    // fourth round
-    humanSelection = getHumanChoice();
-    computerSelection = getComputerChoice();
-    winner = playRound(humanSelection, computerSelection);
-    if (winner) {
-        winner === "human" ? humanScore++: computerScore++;
-    }
-    
-    // fifth round
-    humanSelection = getHumanChoice();
-    computerSelection = getComputerChoice();
-    winner = playRound(humanSelection, computerSelection);
-    if (winner) {
-        winner === "human" ? humanScore++: computerScore++;
-    }
+    // apppend the buttons in the container and append the container in the body element
+    btns.appendChild(rock);
+    btns.appendChild(paper);
+    btns.appendChild(scissors);
 
-    // print the scores for user, computer and the result of the five rounds
-    let resut = (humanScore > computerScore) ? "You Win": (humanScore === computerScore) ? "Draw": "You Lose";
-    console.log(`Your Score = ${humanScore}\nComputer Score = ${computerScore}\n${resut}`);
+    container.appendChild(btns);
+    document.body.appendChild(container)
+    
+    // hold the scores & result of the round
+    const scores = document.createElement("div");
+    scores.textContent = "Your Score: N/A Computer Score: N/A"
+    
+    const result = document.createElement("p");
+    result.textContent = "Start The Game!"
+    
+    container.appendChild(result);
+    container.appendChild(scores);
+
+    // add the game trigger
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach((btn) => {
+        btn.addEventListener("click", function() {
+
+            const userSelection = btn.textContent;
+            const [winner, msg] = playRound(userSelection);
+            result.textContent = msg;
+            if (winner === "user") userScore++;
+            else if (winner === "computer") computerScore++;
+            scores.textContent = `Your Score: ${userScore} Computer Score: ${computerScore}`
+            if (userScore >= 5) {
+                scores.textContent = "You Win!"
+                result.textContent = "play again?";
+                alert("You Win!")
+                userScore = computerScore = 0;
+            } else if (computerScore >= 5) {
+                scores.textContent = "You Lose!"
+                result.textContent = "play again?";
+                alert("You Lose!")
+                userScore = computerScore = 0;
+            }
+        });
+    });    
 }
 
 playGame()
